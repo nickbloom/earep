@@ -1,0 +1,55 @@
+
+\begin{table}
+\fontsize{10}{12}\selectfont
+\centering
+\newcolumntype{d}{D{.}{.}{6}}
+\begin{threeparttable}
+\caption{Logistic regression on donor variable: Individual-level effects by country \label{tab:logits1}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabularx}{8in}{X*{8}{d}}\\
+\toprule
+\multicolumn{1}{c}{Country} & \multicolumn{1}{c}{Intercept} & \multicolumn{1}{c}{Female} & \multicolumn{1}{c}{Age} & \multicolumn{1}{c}{Education} & \multicolumn{1}{c}{Income} & \multicolumn{1}{c}{Network} & \multicolumn{1}{c}{Attend} & \multicolumn{1}{c}{\emph{N}} \\
+\midrule
+\textbf{National Systems} & & & & & & & & \\
+\midrule
+Britain &-1.833\sym{***} &  -0.430 & -0.041\sym{***} &   0.037 & 0.013 & -0.218 & -0.002 & 696 \\
+& (0.279) &  (0.306) &   (0.011) &  (0.041) & (0.045) & (0.241) & (0.138)& \\
+France &-1.633\sym{***} &  -0.149 & -0.024\sym{***} &   0.134\sym{***} & 0.034 &  0.055 &  0.075 & 831 \\
+& (0.223) &  (0.231) &   (0.008) &  (0.032) & (0.035) & (0.160) & (0.118)& \\
+Ireland &-1.912\sym{***} &  -0.753\sym{***} & -0.032\sym{***} &  -0.004 & 0.055 &  0.107 & -0.031 & 543 \\
+& (0.502) &  (0.360) &   (0.013) &  (0.083) & (0.060) & (0.272) & (0.145)& \\
+\textbf{Red Cross Systems} & & & & & & & & \\
+\midrule
+Belgium &-2.900\sym{***} &   0.097 & -0.005 &   0.024 & 0.115\sym{*} &  0.128 &  0.103& 529 \\
+& (0.483) &  (0.440) &   (0.013) &  (0.028) & (0.068) & (0.307) & (0.186)& \\
+Luxembourg &-3.119\sym{***} &  -1.389\sym{***} & -0.013 &  -0.067 & 0.105 & -0.209 &  0.498\sym{***}& 379 \\
+& (0.578) &  (0.578) &   (0.016) &  (0.074) & (0.078) & (0.326) & (0.219)& \\
+Netherlands &-2.427\sym{***} &  -0.289 & -0.021\sym{**} &  -0.001 & 0.060\sym{*} &  0.312\sym{*} &  0.220\sym{**}& 857 \\
+& (0.252) &  (0.253) &   (0.009) &  (0.032) & (0.035) & (0.184) & (0.097)& \\
+Germany &-2.771\sym{***} &  -0.493\sym{**} & -0.028\sym{***} &   0.017 & 0.004 &  0.502\sym{***} &  0.095 & 1714 \\
+& (0.211) &  (0.213) &   (0.007) &  (0.024) & (0.032) & (0.149) & (0.103)& \\
+\textbf{Banking Systems} & & & & & & & & \\
+\midrule
+Denmark&-1.923\sym{***} &  -0.368 & -0.018\sym{**} &  -0.003 & 0.077\sym{**} &  0.144 &  0.074 & 898 \\
+& (0.222) &  (0.234) &   (0.008) &  (0.024) & (0.033) & (0.166) & (0.130) & \\
+Norway&-2.709\sym{***} &  -0.143 & -0.011 &   0.039\sym{**} & 0.125\sym{**} &  0.124 &  0.039 & 860 \\
+& (0.322) &  (0.332) &   (0.011) &  (0.019) & (0.053) & (0.229) & (0.180) & \\
+Italy&-2.754\sym{***} &  -1.207\sym{***} & -0.021\sym{*} &  -0.007 &-0.015 & -0.134 &  0.214 & 710 \\
+& (0.483) &  (0.403) &   (0.011) &  (0.043) & (0.062) & (0.289) & (0.161) & \\
+Greece &-1.476\sym{***} &  -1.863\sym{***} & -0.030\sym{***} &   0.068\sym{**} & 0.024 &  0.005 &  0.202 & 763 \\
+& (0.411) &  (0.343) &   (0.008) &  (0.031) & (0.049) & (0.214) & (0.170) & \\
+Spain &-2.852\sym{***} &  -0.193 & -0.017 &   0.038 & 0.020 &  0.297 &  0.117 & 689 \\
+& (0.396) &  (0.343) &   (0.012) &  (0.042) & (0.056) & (0.269) & (0.135) & \\
+Portugal & -3.742\sym{***} & -1.631\sym{***} & -0.004 &  -0.049 & 0.120 &  0.614 & 0.154 & 806 \\
+& (0.596) & (0.491) &  (0.014) & (0.054) & (0.078) & (0.373) & (0.197) & \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\item \scriptsize{Standard Errors are given in parentheses below coefficients.}
+\item \scriptsize{\sym{*} \emph{P} < 0.1}
+\item \scriptsize{\sym{**} \emph{P} < 0.05}
+\item \scriptsize{\sym{***} \emph{P} < 0.01}
+\end{tablenotes}
+\end{threeparttable}
+\fontsize{10}{15}\selectfont
+\end{table}

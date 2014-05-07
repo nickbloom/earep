@@ -1,0 +1,53 @@
+\begin{table}
+\fontsize{10}{12}\selectfont
+\centering
+\newcolumntype{d}{D{.}{.}{6}}
+\begin{threeparttable}
+\caption{Bootstrap Results from Mixed-effects LPM \label{tab:boot1}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabularx}{4.25in}{X*{3}{d}}\\
+\toprule
+\multicolumn{1}{l}{Variable} & \multicolumn{1}{c}{Coefficient} & \multicolumn{1}{c}{95\%CI Lower} & \multicolumn{1}{c}{95\%CI Upper}\\
+\midrule
+(Intercept) & 0.416 & 0.320 & 0.509 \\ 
+female & -0.081 & -0.123 & -0.040 \\ 
+agecent & 0.002 & 0.001 & 0.003 \\ 
+educcent & 0.014 & 0.007 & 0.021 \\ 
+income & 0.018 & 0.012 & 0.025 \\ 
+network & 0.031 & 0.001 & 0.062 \\ 
+attend & 0.003 & -0.014 & 0.020 \\ 
+I(female * redcross) & -0.041 & -0.088 & 0.008 \\ 
+I(agecent * redcross) & -0.002 & -0.003 & -0.000 \\ 
+I(educcent * redcross) & -0.008 & -0.015 & -0.000 \\ 
+I(income * redcross) & -0.011 & -0.019 & -0.004 \\ 
+I(network * redcross) & 0.048 & 0.010 & 0.084 \\ 
+I(attend * redcross) & 0.008 & -0.013 & 0.030 \\ 
+I(female * banking) & -0.038 & -0.084 & 0.009 \\ 
+I(agecent * banking) & 0.000 & -0.001 & 0.001 \\ 
+I(educcent * banking) & -0.011 & -0.018 & -0.004 \\ 
+I(income * banking) & -0.005 & -0.012 & 0.002 \\ 
+I(network * banking) & 0.004 & -0.030 & 0.036 \\ 
+I(attend * banking) & -0.005 & -0.027 & 0.018 \\ 
+I(female * dongroup) & -0.078 & -0.120 & -0.035 \\ 
+I(agecent * dongroup) & -0.000 & -0.002 & 0.001 \\ 
+I(educcent * dongroup) & 0.006 & 0.001 & 0.011 \\ 
+I(income * dongroup) & -0.003 & -0.010 & 0.004 \\ 
+I(network * dongroup) & 0.021 & -0.011 & 0.053 \\ 
+I(attend * dongroup) & 0.001 & -0.020 & 0.021 \\ 
+redcross & -0.157 & -0.272 & -0.038 \\ 
+banking & -0.183 & -0.293 & -0.069 \\ 
+dongroup & 0.172 & 0.073 & 0.274 \\ 
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\item \scriptsize{NOTE: Valid N=10,394. Log Likelihood = -5734.}
+\item \scriptsize{Country-level random effects fitted but not shown.}
+\item \scriptsize{Standard Errors are given in parentheses below coefficients.}
+\item \scriptsize{\sym{*} \emph{P} < 0.1}
+\item \scriptsize{\sym{**} \emph{P} < 0.05}
+\item \scriptsize{\sym{***} \emph{P} < 0.01}
+\item \scriptsize{Estimated using \texttt{lmer} in \texttt{R}}
+\end{tablenotes}
+\end{threeparttable}
+\fontsize{10}{15}\selectfont
+\end{table}

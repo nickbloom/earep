@@ -1,0 +1,45 @@
+\begin{table}
+\fontsize{10}{12}\selectfont
+\centering
+\newcolumntype{d}{D{.}{.}{6}}
+\begin{threeparttable}
+\caption{Mixed-effects linear probability model of individual- and institutional-level variables \label{tab:mlm2}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabularx}{4.25in}{X*{4}{d}}\\
+\toprule
+\multicolumn{1}{l}{Variable} & \multicolumn{1}{c}{Main Effect} & \multicolumn{1}{c}{Red Cross} & \multicolumn{1}{c}{Blood Banks} & \multicolumn{1}{c}{Donor Groups}\\
+\midrule
+Intercept & 0.416\sym{***} & & & \\
+ & (0.042) & & & \\[0.25em]
+Female  & -0.081\sym{***} & -0.041 & -0.038 & -0.078\sym{***} \\
+ & (0.021) & (0.025) & (0.023) & (0.022)\\[0.25em]
+Age &  0.002\sym{***} & -0.002\sym{**} &  0.000 &  0.000 \\
+ & (0.001) & (0.001) & (0.001) & (0.001)\\[0.25em]
+Education &  0.014\sym{***} & -0.008\sym{**} & -0.011\sym{***} &  0.006\sym{**} \\
+ & (0.003) & (0.004) & (0.003) & (0.002)\\[0.25em]
+Income  &  0.018\sym{***} & -0.011\sym{***} & -0.005 & -0.003 \\
+ & (0.003) & (0.004) & (0.004) & (0.004)\\[0.25em]
+Network &  0.031\sym{**} &  0.048\sym{***} &  0.004 &  0.021 \\
+ & (0.015) & (0.018) & (0.017) & (0.016)\\[0.25em]
+Attend  &  0.003 &  0.008 & -0.005 &  0.001 \\
+ & (0.009) & (0.011) & (0.011) & (0.011)\\[0.25em]
+Redcross & -0.157\sym{***} & & & \\ 
+  & (0.055) & & & \\ [0.25em]
+Bld. Banks & -0.183\sym{***} & & & \\ 
+  & (0.052) & & & \\ [0.25em]
+Donor Grp & 0.172\sym{***} & & & \\ 
+  & (0.050) & & & \\ [0.25em]
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\item \scriptsize{NOTE: Valid N=10,394. Log Likelihood = -6117.}
+\item \scriptsize{Country-level random effects fitted but not shown.}
+\item \scriptsize{Standard Errors are given in parentheses below coefficients.}
+\item \scriptsize{\sym{*} \emph{P} < 0.1}
+\item \scriptsize{\sym{**} \emph{P} < 0.05}
+\item \scriptsize{\sym{***} \emph{P} < 0.01}
+\item \scriptsize{Estimated using \texttt{lmer} in \texttt{R}}
+\end{tablenotes}
+\end{threeparttable}
+\fontsize{10}{15}\selectfont
+\end{table}

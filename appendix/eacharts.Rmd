@@ -1,0 +1,313 @@
+<html>
+<head>
+<title>Nick Bloom - Models, Models, Everwhere&#33;</title>
+<link rel="stylesheet" href="rmd.css">
+<script type="text/javascript" src="http://use.typekit.com/dkf3nhj.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32178853-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body>
+
+
+<div id="top">
+<div id="topin">
+<ul>
+<li id="first"><a href="http://nickbloom.net">HOME</a></li>
+<li><a href="work.html">WORK</a></li>
+<li class="on"><a href="play.html">FUN</a></li>
+<!--<li><a href="http://nickbloom.net/blog/">Blog</a></li>-->
+<li><a href="vita.html">VITA</a></li>
+<li><a href="contact.html">SAY HI</a></li>
+</ul>
+</div>
+</div>
+<div id="container">
+
+# Embedded Altruism 2 - Appendix
+## More Graphs!
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE,results='hide'}
+library(car)
+library(lme4)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(stargazer)
+library(xtable)
+
+# Individual-Level *n*: 10275
+# Mixed-Model *n*: 10,394
+
+eurob<-read.csv("/Users/nbloom/Transporter/nick/statistics/datasets/eurobarometer1994/eurobarometR.csv", header = TRUE, sep = ",", dec=".", na.strings="")
+eurob<-subset(eurob, V10<15)
+
+eurobar<-data.frame("rep"=rep(1, 18476))
+# RECODE: Given in the Last Year
+eurobar$evdon<-recode(eurob$V301, "0=NA; 2=0; 3=NA; 9=NA")
+eurobar$lastyr<-recode(eurob$V303, '1=1; else=0')
+#RECODE: Network 
+eurob$strans<-recode(eurob$V333, '2=0; 9=NA; 3=NA; 0=NA')
+eurob$ftrans<-recode(eurob$V334, '9=NA; 8=NA')
+eurob$atrans<-recode(eurob$V335, '9=NA; 8=NA')
+eurobar$network<-with(eurob, strans+ftrans+atrans)
+#eurobar$network2<-with(eurob, strans+ftrans)
+
+# RECODE: Female
+eurobar$female<-eurob$V430-1
+
+#RECODE: Age
+eurob$age<-recode(eurob$V431, '0=NA')
+eurobar$agecent<-eurob$age-35
+
+#RECODE: Income
+eurobar$income<-recode(eurob$V463, '0=NA; 97=NA; 98=NA')
+eurobar$income<-eurobar$income-10
+
+
+
+#RECODE:Attend
+eurob$attend<-recode(eurob$V461, "6=NA; 9=5; 0=NA")
+eurobar$attend<-(5-eurob$attend)
+eurobar$attend<-recode(eurobar$attend, 'NA=0')
+
+#RECODE:Educ
+eurob$educraw<-recode(eurob$V427, "999=NA; 997=NA; 0=NA")
+eurob$educage<-ifelse(eurob$educraw==998, eurob$age, eurob$educraw)
+eurob$educage<-recode(eurob$educage, '99=NA')
+eurob$educ<-eurob$educage-5
+eurobar$educcent<-eurob$educ-16
+
+#RECODE: Country
+eurobar$country<-eurob$V10
+eurobar$country2<-recode(eurob$V10, '10=9')
+eurobar$countrynm<-recode(eurobar$country, "1='France'; 2='Belgium'; 3='Netherlands'; 4='Germany'; 5='Italy'; 6='Luxembourg'; 7='Denmark'; 8='Ireland'; 9='GB'; 10='NorthIre'; 11='Greece'; 12='Spain'; 13='Portugal'; 14='Norway'")
+
+#RECODE: Collection Regime
+eurobar$colreg<-NA
+eurobar$colreg[eurobar$country2==9]<-1
+eurobar$colreg[eurobar$country2==1]<-1
+eurobar$colreg[eurobar$country2==8]<-1
+eurobar$colreg[eurobar$country2==2]<-2
+eurobar$colreg[eurobar$country2==6]<-2
+eurobar$colreg[eurobar$country2==3]<-2
+eurobar$colreg[eurobar$country2==4]<-2
+eurobar$colreg[eurobar$country2==7]<-3
+eurobar$colreg[eurobar$country2==5]<-3
+eurobar$colreg[eurobar$country2==11]<-3
+eurobar$colreg[eurobar$country2==12]<-3
+eurobar$colreg[eurobar$country2==13]<-3
+eurobar$colreg[eurobar$country2==14]<-3
+eurobar$colreg<-as.factor(eurobar$colreg)
+eurobar$colreg<-relevel(eurobar$colreg, ref="1")
+
+eurobar$national<-recode(eurobar$colreg, '1=1; else=0')
+eurobar$redcross<-recode(eurobar$colreg, '2=1; else=0')
+eurobar$banking<-recode(eurobar$colreg, '3=1; else=0')
+
+eurobar$national<-as.numeric(as.character(eurobar$national))
+eurobar$redcross<-as.numeric(as.character(eurobar$redcross))
+eurobar$banking<-as.numeric(as.character(eurobar$banking))
+
+
+
+eurobar$dongroup<-NA
+eurobar$dongroup[eurobar$country2==9]<-0
+eurobar$dongroup[eurobar$country2==1]<-1
+eurobar$dongroup[eurobar$country2==8]<-0
+eurobar$dongroup[eurobar$country2==2]<-0
+eurobar$dongroup[eurobar$country2==6]<-0
+eurobar$dongroup[eurobar$country2==3]<-0
+eurobar$dongroup[eurobar$country2==4]<-0
+eurobar$dongroup[eurobar$country2==7]<-1
+eurobar$dongroup[eurobar$country2==14]<-0
+eurobar$dongroup[eurobar$country2==5]<-1
+eurobar$dongroup[eurobar$country2==10]<-0
+eurobar$dongroup[eurobar$country2==11]<-1
+eurobar$dongroup[eurobar$country2==12]<-1
+eurobar$dongroup[eurobar$country2==13]<-0
+#GET RID OF NA VAR
+eurobar[,1]<-NULL
+
+system.time(mlm.1.1<-glmer(evdon ~ female + agecent + educcent + income + network + attend + I(female*redcross) + I(agecent*redcross) + I(educcent*redcross) + I(income*redcross) + I(network*redcross) + I(attend*redcross) + I(female*banking) + I(agecent*banking) + I(educcent*banking) + I(income*banking) + I(network*banking) + I(attend*banking)+ I(female*dongroup) + I(agecent*dongroup) + I(educcent*dongroup) + I(income*dongroup) + I(network*dongroup) + I(attend*dongroup) +  redcross + banking + dongroup + (1|country2), data=eurobar, family=binomial,nAGQ=0))
+
+system.time(mlm.2<-lmer(evdon ~ female + agecent + educcent + income + network + attend + I(female*redcross) + I(agecent*redcross) + I(educcent*redcross) + I(income*redcross) + I(network*redcross) + I(attend*redcross) + I(female*banking) + I(agecent*banking) + I(educcent*banking) + I(income*banking) + I(network*banking) + I(attend*banking)+ I(female*dongroup) + I(agecent*dongroup) + I(educcent*dongroup) + I(income*dongroup) + I(network*dongroup) + I(attend*dongroup) +  redcross + banking + dongroup + (1|country2), data=eurobar))
+
+## GRAPHS (OH BOY)
+mlm1fit<-fitted(mlm.1.1)
+mlm1fit<-cbind(mlm1fit, names(mlm1fit))
+colnames(mlm1fit)<-c("logfit", 'id')
+eurobar$id<-rownames(eurobar)
+fm1<-merge(eurobar, mlm1fit, by='id')
+fm1$logfit<-as.numeric(as.character(fm1$logfit))
+
+mlm2fit<-fitted(mlm.2)
+mlm2fit<-cbind(mlm2fit, names(mlm2fit))
+colnames(mlm2fit)<-c("linfit", 'id')
+fm1<-merge(fm1, mlm2fit, by='id')
+fm1$linfit<-as.numeric(as.character(fm1$linfit))
+fm1$colreg<-recode(fm1$colreg, "1='National'; 2='Red Cross'; 3='Blood Banks'")
+fm1$dongroup<-factor(fm1$dongroup, levels=c("1","0"), labels=c('Yes','No'))
+
+
+m1re<-(ranef(mlm.1.1))
+m1re<-as.matrix(m1re)
+
+countries<-group_by(fm1, countrynm)
+colreg<-group_by(fm1, colreg)
+
+unexpdon<-summarize(countries, logue=sum(logfit<0.5 & evdon==1), linue=sum(linfit<0.5 & evdon==1), donors=sum(evdon==1))
+unexpdon$logperc<-unexpdon$logue/unexpdon$donors
+unexpdon$linperc<-unexpdon$linue/unexpdon$donors
+
+unexpcolrg<-summarize(colreg, logue=sum(logfit<0.5 & evdon==1),linue=sum(linfit<0.5 & evdon==1), donors=sum(evdon==1))
+unexpcolrg$logperc<-unexpcolrg$logue/unexpcolrg$donors
+unexpcolrg$linperc<-unexpcolrg$linue/unexpcolrg$donors
+
+
+#Density of propensity
+dp1<-ggplot(fm1)
+dp1<-dp1+geom_density(aes(x=logfit))+geom_vline(xintercept=mean(fm1$logfit))+theme_bw()+xlab('P(Donation)')+ylab("Density")+ggtitle('Overall Density of Propensities - glmer')
+
+#Densities of propensities by country
+dp<-ggplot(fm1)
+dp<-dp+geom_density(aes(x=logfit, group=countrynm, color=countrynm))+theme_bw()+xlab('P(Donation)')+ylab("Density")+ggtitle('Density of Propensities by Country - glmer')
+
+#Densities of propensities by country - linear fit
+dplin<-ggplot(fm1)
+dplin<-dp+geom_density(aes(x=linfit, group=countrynm, color=countrynm))+theme_bw()+xlab('P(Donation)')+ylab("Density")+ggtitle('Density of Propensities by Country - lmer')+guides(color=guide_legend(title='Country'))
+
+
+#Densities of propensities by country - highlight France
+dpf<-ggplot(fm1)+geom_density(aes(x=logfit, group=countrynm), color='#CCCCCC')+geom_vline(xintercept=mean(mean(fm1$logfit[fm1$countrynm!='France'])),color='#CCCCCC')
+dpf<-dpf+geom_density(data=subset(fm1, countrynm=='France'), aes(x=logfit, group=countrynm, color=countrynm),color='red')+geom_vline(xintercept=mean(fm1$logfit[fm1$countrynm=='France']),color='red')+theme_bw()+xlab('P(Donation)')+ylab("Density")+ggtitle('Density of Propensities by Country, France Highlight - glmer')+guides(color=guide_legend(title='Country'))
+
+# Comparing Densities by country
+comfit<-ggplot(melt(fm1[,c(12,18,19)]))
+comfit<-comfit+geom_density(aes(x=value, color=variable),size=1.3)+facet_wrap(~countrynm,ncol=3)+xlab('P(Donation)')+ylab("Density")+ggtitle('Density of Propensities by Country - glmer/lmer')+theme_bw()+scale_color_manual(guide=guide_legend(title='Model'),values=c('#31a354', '#2c7fb8'),labels=c('Logit', 'LPM'))
+
+# Density of propensity by donor group
+dp2<-ggplot(fm1)
+dp2<-dp2+geom_density(aes(x=logfit, group=factor(colreg), color=factor(colreg)))+theme_bw()+xlab('P(Donation)')+ylab("Density")+ggtitle('Density of Propensities by Collection Regime - glmer')+guides(color=guide_legend(title='Collection Regime'))
+
+dp2.1<-ggplot(fm1)
+dp2.1<-dp2.1+geom_density(aes(x=logfit, group=factor(dongroup), color=factor(dongroup)))+geom_vline(xintercept=mean(fm1$logfit[fm1$dongroup=='Yes']),color='#F8766D')+geom_vline(xintercept=mean(fm1$logfit[fm1$dongroup=='No']),color='#0ABFC5')+theme_bw()+xlab('P(Donation)')+ylab("Density")+ggtitle('Density of Propensities by Presence of Donor Group - glmer')+guides(color=guide_legend(title='Donor Group'),labels=c('No', 'Yes'))
+
+# Logit vs Linear Predprob
+dp3<-ggplot(fm1)
+dp3<-dp3+geom_point(aes(x=logfit, y=linfit))+ylab("Linear Fit")+xlab("Logit Fit")+ggtitle("Linear-Logit Precticted Probabilities")
+
+dp4<-ggplot(fm1)
+dp4<-dp4+geom_point(aes(x=logfit, y=linfit, group=countrynm, color=countrynm)) + theme_bw()+ylab("Linear Fit")+xlab("Logit Fit")+ggtitle("Linear-Logit Precticted Probabilities")+guides(color=guide_legend(title='Country'))+ xlim(-0.1,0.9) + ylim(-0.1,0.9)
+
+dp5<-ggplot(fm1)
+dp5<-dp5+geom_point(aes(x=logfit, y=linfit, group=factor(evdon), color=factor(evdon)))+ylab("Linear Fit")+xlab("Logit Fit")+ggtitle("Linear-Logit Precticted Probabilities") + theme_bw()+guides(color=guide_legend(title='Ever Donated'))+ xlim(-0.1,0.9) + ylim(-0.1,0.9)
+
+dp6<-ggplot(fm1)
+
+# Unexpected Donors
+# By Country
+udc<-ggplot(melt(unexpdon[,1:3]))
+udc<-udc+geom_bar(aes(x=countrynm, y=value,fill=variable),stat='identity', position='dodge')+theme_bw()+scale_fill_manual(guide=guide_legend(title='Model'),values=c('#31a354', '#2c7fb8'),labels=c('Logit', 'LPM'))+xlab('Collection Regime')+ylab('Count of Unexpected Donors')+ggtitle('Number of Unexpected Donors by Country - glmer/lmer')+theme(axis.text.x=element_text(angle = -90,vjust=0.5,hjust=0.25))
+
+# By Collection Regime - Comparison of Linear and Logistic
+udg<-ggplot(melt(unexpcolrg[,1:3]))
+udg<-udg+geom_bar(aes(x=colreg, y=value,fill=variable),stat='identity', position='dodge')+theme_bw()+scale_fill_manual(guide=guide_legend(title='Model'),values=c('#31a354', '#2c7fb8'),labels=c('Logit', 'LPM'))+xlab('Collection Regime')+ylab('Count of Unexpected Donors')+ggtitle('Number of Unexpected Donors by Collection Regime - glmer/lmer')
+```
+
+### A Note on the Approach
+
+Many of the graphs below are density plots of propensities, or predicted probabilities. These predicted probabilities are the predicted probabilities calculated by the model for each individual person, *not* the variability of a coefficient's effect *or* the marginal effect of a coefficient.
+
+Instead, I am grouping predicted probabilites by independent variables, and summarizing those groups with densities. I see these density plots as a (very, very) rough estimation of the distribution of latent probability of donating blood within a given group (for example, the country of France). I can't be *sure* that grouping variables are responsible for the different distributions, or that differences between distributions are meaningful. However, I think the plots are useful heuristically to get a better feel for underlying differences in the Eurobarometer population, without making assumptions about the pdf of probability.
+
+### Visualizing the Donor Population
+
+First, let's get a sense of the overall population of donors in the sample:
+
+```{r, echo=FALSE,fig.width=7,fig.cap='',dpi=230}
+dp1
+```
+
+Overall, people aren't very likely to donate blood; the bulk of the predicted probabilities are between 0.1 and 0.4. The vertical line is the mean of the propensities, which is ≈0.286. But, pooling the results like this is probably masking within-country variation. So, let's see how it looks by country:
+
+```{r, echo=FALSE,fig.width=9,fig.cap='',dpi=230}
+dp
+```
+
+This picture looks more realistic, with densities varying wildly by country. France, in particular, looks like a positive outlier, with most people likely to donate. Let's get a better look:
+
+```{r, echo=FALSE,fig.width=7,fig.cap='',dpi=230}
+dpf
+```
+
+It looks like, on average, people from France are the most likely to give blood. The gray vertical line is the global mean propensity for countries other than France (≈0.272), and the vertical red line is the mean propensity for France (≈0.449). Just for comparison's sake, here are the country-level densities by estimation method:
+
+```{r, echo=FALSE,fig.width=9,fig.cap='',dpi=230}
+comfit
+```
+
+What's interesting (to me at least) is that the country densities follow one of two patterns: 1) normally distributed, or 2) bimodal. The bi-modal countries are generally coastal Mediterranean countries, and probably more importantly, mostly blood bank countries. This complicates interpretation of mean propensities within countries, since it appears the mean is sometimes deceiving.
+
+To get a sense of institutional effects, let's see what these densities look like by collection regime:
+
+```{r, echo=FALSE,fig.width=7,fig.cap='',dpi=230}
+dp2
+```
+As predicted in the model, individuals nationally-run blood-collection systems are the most likely to donate, followed by Red Cross, and then Blood Banking regimes. Similarly, donor groups increase overally donation propensity:
+
+```{r, echo=FALSE,fig.width=7,fig.cap='',dpi=230}
+dp2.1
+```
+
+
+
+
+### Comparisons of Model Fit
+
+```{r, echo=FALSE,fig.width=7,fig.cap='',dpi=230}
+dp4
+```
+
+```{r, echo=FALSE,fig.width=7,fig.cap='',dpi=230}
+dp5
+```
+
+</div>
+
+<div id="footer">
+<p>All your blood are belong to us.</p>
+</div>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37573172-1']);
+  _gaq.push(['_setDomainName', 'nickbloom.net']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,48 @@
+\begin{table}
+\fontsize{10}{12}\selectfont
+\centering
+\newcolumntype{d}{D{.}{.}{6}}
+\begin{threeparttable}
+\caption{Bootstrap Results for Mixed-effects logit model \label{tab:boot1}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabularx}{4.5in}{X*{3}{d}}\\
+\toprule
+\multicolumn{1}{l}{Variable} & \multicolumn{1}{c}{Coefficient} & \multicolumn{1}{c}{95\% CI Lower} & \multicolumn{1}{c}{95\% CI Upper}\\
+\midrule
+(Intercept) & -0.388 & -0.822 & 0.065 \\
+\textbf{Female} & -0.430 & -0.644 & -0.205 \\ 
+Female x Red Cross & -0.222 & -0.496 & 0.049 \\ 
+\textbf{Female x Blood Banks} & -0.419 & -0.669 & -0.168 \\  
+Female x Don. Grp. & -0.175 & -0.432 & 0.072 \\   
+\textbf{Age} & 0.013 & 0.006 & 0.019 \\ 
+\textbf{Age x Red Cross} & -0.011 & -0.020 & -0.003 \\
+Age x Blood Banks & 0.004 & -0.004 & 0.011 \\
+Age x Don. Grp. & -0.006 & -0.014 & 0.002 \\
+\textbf{Education} & 0.061 & 0.028 & 0.094 \\ 
+Education x Red Cross & -0.029 & -0.065 & 0.008 \\
+\textbf{Education x Blood Banks} & -0.039 & -0.073 & -0.004 \\
+Education x Don. Grp. & 0.024 & -0.002 & 0.050 \\ 
+\textbf{Income} & 0.098 & 0.062 & 0.134 \\ 
+\textbf{Income x Red Cross} & -0.059 & -0.104 & -0.014 \\
+Income x Blood Banks & -0.001 & -0.041 & 0.038 \\  
+Income x Don. Grp. & -0.039 & -0.079 & 0.001 \\ 
+\textbf{Network} & 0.158 & 0.001 & 0.314 \\
+\textbf{Network x Red Cross} & 0.258 & 0.056 & 0.462 \\ 
+Network x Blood Banks & 0.089 & -0.090 & 0.274 \\ 
+Network x Don. Grp. & 0.045 & -0.130 & 0.223 \\   
+Attend & 0.017 & -0.073 & 0.108 \\ 
+Attend x Red Cross & 0.043 & -0.073 & 0.158 \\
+Attend x Blood Banks & -0.031 & -0.150 & 0.087 \\ 
+Attend x Don. Grp. & 0.009 & -0.105 & 0.125 \\ 
+\textbf{Red Cross} & -0.747 & -1.315 & -0.192 \\  
+\textbf{Blood Banks} & -0.842 & -1.393 & -0.284 \\ 
+\textbf{Don. Grps} & 0.803 & 0.284 & 1.300 \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\item \scriptsize{NOTE: Valid N=10,394. Iterations=1000.}
+\item \scriptsize{Estimated using \texttt{boot.lmer} in \texttt{R}}
+\end{tablenotes}
+\end{threeparttable}
+\fontsize{10}{15}\selectfont
+\end{table}

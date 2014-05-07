@@ -1,0 +1,48 @@
+\begin{table}
+\fontsize{10}{12}\selectfont
+\centering
+\newcolumntype{d}{D{.}{.}{6}}
+\begin{threeparttable}
+\caption{Bootstrap Results for Mixed-effects linear probability model \label{tab:boot2}}
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabularx}{4.5in}{X*{4}{d}}\\
+\toprule
+\multicolumn{1}{l}{Variable} & \multicolumn{1}{c}{Coefficient} & \multicolumn{1}{c}{95\% CI Lower} & \multicolumn{1}{c}{95\% CI Upper}\\
+\midrule
+(Intercept) & 0.416 & 0.320 & 0.509 \\ 
+\textbf{Female} & -0.081 & -0.123 & -0.040 \\
+Female x Red Cross & -0.041 & -0.088 & 0.008 \\ 
+Female x Blood Banks & -0.038 & -0.084 & 0.009 \\ 
+\textbf{Female x Don. Grp.} & -0.078 & -0.120 & -0.035 \\  
+\textbf{Age} & 0.002 & 0.001 & 0.003 \\ 
+\textbf{Age x Red Cross} & -0.002 & -0.003 & -0.000 \\ 
+Age x Blood Banks & 0.000 & -0.001 & 0.001 \\ 
+Age x Don. Grp. & -0.000 & -0.002 & 0.001 \\ 
+\textbf{Education} & 0.014 & 0.007 & 0.021 \\
+\textbf{Education x Red Cross} & -0.008 & -0.015 & -0.000 \\ 
+\textbf{Education x Blood Banks} & -0.011 & -0.018 & -0.004 \\ 
+\textbf{Education x Don. Grp.} & 0.006 & 0.001 & 0.011 \\  
+\textbf{Income} & 0.018 & 0.012 & 0.025 \\ 
+\textbf{Income x Red Cross} & -0.011 & -0.019 & -0.004 \\ 
+Income x Blood Banks & -0.005 & -0.012 & 0.002 \\ 
+Income x Don. Grp. & -0.003 & -0.010 & 0.004 \\ 
+\textbf{Network} & 0.031 & 0.001 & 0.062 \\ 
+\textbf{Network x Red Cross} & 0.048 & 0.010 & 0.084 \\ 
+Network x Blood Banks & 0.004 & -0.030 & 0.036 \\ 
+Network x Don. Grp. & 0.021 & -0.011 & 0.053 \\ 
+Attend & 0.003 & -0.014 & 0.020 \\ 
+Attend x Red Cross & 0.008 & -0.013 & 0.030 \\ 
+Attend x Blood Banks & -0.005 & -0.027 & 0.018 \\ 
+Attend x Don. Grp. & 0.001 & -0.020 & 0.021 \\ 
+\textbf{Red Cross} & -0.157 & -0.272 & -0.038 \\ 
+\textbf{Blood Banks} & -0.183 & -0.293 & -0.069 \\ 
+\textbf{Don. Grps} & 0.172 & 0.073 & 0.274 \\ 
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}
+\item \scriptsize{NOTE: Valid N=10,394. Iterations=1000.}
+\item \scriptsize{Estimated using \texttt{boot.lmer} in \texttt{R}}
+\end{tablenotes}
+\end{threeparttable}
+\fontsize{10}{15}\selectfont
+\end{table}
